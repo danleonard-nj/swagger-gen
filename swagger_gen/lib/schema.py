@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List, Union
 from swagger_gen.lib.constants import (
     DefinitionEnum,
     MetadataEnum
@@ -17,19 +17,72 @@ class SwaggerDefinition:
         self._definition = self._get_base_definition()
         self._metadata = EndpointMetadata()
 
-    def get_definition(self):
+    def get_definition(self) -> dict:
+        '''
+        Return the generated Swagger definition
+
+        returns:
+            (dict) Swagger definitions
+        '''
+
         return self._definition
 
-    def add_endpoint(self, endpoint: Endpoint):
+    def add_endpoint(self, endpoint: Endpoint) -> None:
+        '''
+        Parse an endpoint and add it to to Swagger definitions
+
+        params:
+            endpoint    :   endpoint to parse
+        '''
+
+        # TODO: Pass down optional responses param to _create_path
+
         self._create_path(endpoint)
 
-    def _add_path(self, endpoint, definition):
-        self._definition['paths'][endpoint] = definition
+    def _add_path(self, endpoint_literal: str, definition: dict):
+        '''
+        Add the generated endpoint path schema to the Swagger
+        definition 
 
-    def _add_component(self, name: str, model: dict):
-        self._definition['components']['schemas'][name] = model
+        params:
+            endpoint_literal    :   the endpoint url
+            definition          :   the endpoint path schema
+        '''
 
-    def _create_path(self, endpoint: Endpoint, responses=None):
+        self._definition['paths'][endpoint_literal] = definition
+
+    def _add_component(self, component_key: str, component_model: dict):
+        '''
+        Add the generated component schema to the Swagger
+        definition.  The component key links the endpoint
+        path definition to the component schema
+
+        The component model descriptors are key : datatype
+
+        {
+            'name' : 'string',
+            'date' : 'datetime'
+        }
+
+        params:
+            component_key       :   the endpoint component key
+            component_model     :   the component model of 
+                                    endpoint request body
+        '''
+
+        self._definition['components']['schemas'][component_key] = component_model
+
+    def _create_path(self, endpoint: Endpoint, responses: dict = None) -> None:
+        '''
+        Generate the endpoint path schema.  This incorporates any optional 
+        metadata that is defined on the endpoint by way of @swagger_metadata.
+
+        params:
+            endpoint    :   the endpoint to parse
+            responses   :   the endpoint response models.  This defaults to
+                            a model indicating a 200 OK response
+        '''
+
         definition = dict()
 
         for method in endpoint.methods:
@@ -58,10 +111,26 @@ class SwaggerDefinition:
 
         definition[method.lower()] = method_definition
         self._add_path(
-            endpoint=endpoint.endpoint_literal,
+            endpoint_literal=endpoint.endpoint_literal,
             definition=definition)
 
-    def _get_base_method_definition(self, endpoint: Endpoint, responses):
+    def _get_base_method_definition(self, endpoint: Endpoint, responses: dict) -> dict:
+        '''
+        Generate the base method definition.  This includes the endpoint tag,
+        endpoint url and the default endpoint responses.  Additional data is
+        appended elsewhere.
+
+        There can be multiple method definitions per endpoint, so this can be
+        called multiple times, although it's not common.
+
+        params:
+            endpoint    :   the endpoint to parse
+            responses   :   the response models for the endpoint.  This 
+                            defaults to a single response indicating 200 OK
+
+        returns:
+            (dict) the base method definition
+        '''
         return {
             DefinitionEnum.ENDPOINT_TAGS: [endpoint.tag],
             DefinitionEnum.ENDPOINT_RESPONSES: (
@@ -93,11 +162,16 @@ class SwaggerDefinition:
                 self._get_model_reference(endpoint=endpoint))
 
             self._add_component(
-                name=endpoint.component_key,
-                model=self._get_model_component_schema(
+                component_key=endpoint.component_key,
+                component_model=self._get_model_component_schema(
                     model=endpoint_model))
 
     def _get_base_definition(self) -> dict:
+        '''
+        Get the base Swagger definition schema.  This is boilerplate,
+        additional fields can be added elsewhere (servers, etc)
+        '''
+
         return {
             'openapi': DefinitionEnum.OPEN_API_VERSION,
             'info': {
@@ -111,6 +185,13 @@ class SwaggerDefinition:
         }
 
     def _get_default_responses(self):
+        '''
+        Get the default endpoint response model.  Additional responses
+        can be defined to bypass default values in create_endpoint()
+        '''
+
+        # TODO: Pass down responses from create_endpoint -> _create_path, etc
+
         return {
             '200': {
                 'description': 'Success'
