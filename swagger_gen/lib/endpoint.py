@@ -1,4 +1,4 @@
-from swagger_gen.lib.constants import MethodEnum
+from swagger_gen.lib.constants import Method
 from swagger_gen.lib.exceptions import NullReferenceException
 from swagger_gen.lib.utils import element_at
 from werkzeug.routing import Rule
@@ -63,6 +63,6 @@ class Endpoint:
         return ([
             method for method in methods
             if method not in [
-                MethodEnum.OPTIONS,
-                MethodEnum.HEAD]
+                Method.OPTIONS,
+                Method.HEAD]
         ])

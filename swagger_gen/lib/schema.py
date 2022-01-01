@@ -1,7 +1,7 @@
 from typing import List, Union
 from swagger_gen.lib.constants import (
-    DefinitionEnum,
-    MetadataEnum
+    SchemaDefinition,
+    Meta
 )
 from swagger_gen.lib.endpoint import Endpoint
 from swagger_gen.lib.exceptions import NullReferenceException
@@ -107,7 +107,7 @@ class SwaggerDefinition:
                     parameters=parameters)
 
             if not empty(parameters):
-                method_definition[DefinitionEnum.PARAMETERS] = parameters
+                method_definition[SchemaDefinition.PARAMETERS] = parameters
 
         definition[method.lower()] = method_definition
         self._add_path(
@@ -115,56 +115,65 @@ class SwaggerDefinition:
             definition=definition)
 
     def _get_base_method_definition(self, endpoint: Endpoint, responses: dict) -> dict:
-        '''
-        Generate the base method definition.  This includes the endpoint tag,
-        endpoint url and the default endpoint responses.  Additional data is
-        appended elsewhere.
-
-        There can be multiple method definitions per endpoint, so this can be
-        called multiple times, although it's not common.
-
-        params:
-            endpoint    :   the endpoint to parse
-            responses   :   the response models for the endpoint.  This 
-                            defaults to a single response indicating 200 OK
-
-        returns:
-            (dict) the base method definition
-        '''
         return {
-            DefinitionEnum.ENDPOINT_TAGS: [endpoint.tag],
-            DefinitionEnum.ENDPOINT_RESPONSES: (
-                responses or self._get_default_responses())
+            SchemaDefinition.ENDPOINT_TAGS: [endpoint.tag]
         }
 
     def _add_path_parameters(self, endpoint, parameters) -> None:
         path_parameters = (
             [
                 self._create_parameter_definition(
-                    arg, MetadataEnum.PARAM_PATH_TYPE)
+                    arg, Meta.PARAM_PATH_TYPE)
                 for arg in endpoint.segment_params
             ])
         parameters.extend(path_parameters)
 
     def _add_metadata(self, endpoint, metadata, parameters, method_definition: dict) -> None:
-        endpoint_model = metadata.get(MetadataEnum.MODEL_KEY)
-        if self._get_query_params(endpoint):
+        endpoint_model = metadata.get(
+            Meta.MODEL_KEY)
+        endpoint_query_params = metadata.get(
+            Meta.QUERY_PARAM_KEY)
+        endpoint_description = metadata.get(
+            Meta.DESCRIPTION_KEY)
+        endpoint_summary = metadata.get(
+            Meta.SUMMARY_KEY)
+        endpoint_responses = metadata.get(
+            Meta.RESPONSES_KEY)
+
+        # If query parameters are defined in the metadata
+        if endpoint_query_params:
             query_parameters = (
                 [
                     self._create_parameter_definition(
-                        arg, MetadataEnum.PARAM_QUERY_TYPE)
+                        arg, Meta.PARAM_QUERY_TYPE)
                     for arg in self._get_query_params(endpoint)
                 ])
             parameters.extend(query_parameters)
 
-        if metadata.get(MetadataEnum.MODEL_KEY):
-            method_definition[DefinitionEnum.REQUEST_BODY] = (
+        # If a request model is defined in the metadata
+        if endpoint_model:
+            method_definition[SchemaDefinition.REQUEST_BODY] = (
                 self._get_model_reference(endpoint=endpoint))
 
             self._add_component(
                 component_key=endpoint.component_key,
                 component_model=self._get_model_component_schema(
                     model=endpoint_model))
+
+        # If there are respones defined in the metadata, use those.  Otherwise set defaults
+        if endpoint_responses:
+            _endpoint_responses = endpoint_responses
+        else:
+            _endpoint_responses = self._get_default_responses()
+        method_definition[SchemaDefinition.ENDPOINT_RESPONSES] = _endpoint_responses
+
+        # If there are endpoint descriptions provided
+        if endpoint_description:
+            method_definition[SchemaDefinition.DESCRIPTION] = endpoint_description
+
+        # If there are endpoint descriptions provided
+        if endpoint_summary:
+            method_definition[SchemaDefinition.SUMMARY] = endpoint_summary
 
     def _get_base_definition(self) -> dict:
         '''
@@ -173,7 +182,7 @@ class SwaggerDefinition:
         '''
 
         return {
-            'openapi': DefinitionEnum.OPEN_API_VERSION,
+            'openapi': SchemaDefinition.OPEN_API_VERSION,
             'info': {
                 'title': self.app_name,
                 'version': self.app_version
@@ -201,7 +210,7 @@ class SwaggerDefinition:
     def _get_model_reference(self, endpoint: Endpoint) -> Union[dict, None]:
         if (self._metadata.get_endpoint_metadata(endpoint.metadata_key)
                 and self._metadata.get_endpoint_metadata(endpoint.metadata_key).get(
-                    MetadataEnum.MODEL_KEY)):
+                    Meta.MODEL_KEY)):
 
             return {
                 'content': {
@@ -250,7 +259,7 @@ class SwaggerDefinition:
     def _get_query_params(self, endpoint: Endpoint):
         if self._metadata.get_endpoint_metadata(endpoint.metadata_key):
             query_parameters = self._metadata.get_endpoint_metadata(
-                endpoint.metadata_key).get(MetadataEnum.QUERY_PARAM_KEY)
+                endpoint.metadata_key).get(Meta.QUERY_PARAM_KEY)
 
             if query_parameters:
                 return query_parameters

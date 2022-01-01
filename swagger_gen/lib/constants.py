@@ -1,4 +1,5 @@
-class MethodEnum:
+
+class Method:
     '''
     Request methods
     '''
@@ -9,9 +10,28 @@ class MethodEnum:
     POST = 'POST'
     HEAD = 'HEAD'
     OPTIONS = 'OPTIONS'
+    PATCH = 'PATCH'
 
 
-class DefinitionEnum:
+# class Response:
+#     OK = 200, 'OK'
+#     NO_CONTENT = 201
+#     BAD_REQUEST = 400
+#     UNAUTHORIZED = 401
+#     FORBIDDEN = 403
+#     INTERNAL_SERVER_ERROR = 500
+
+#     Description = {
+#         OK: '200 Ok',
+#         NO_CONTENT: '201 No Content',
+#         BAD_REQUEST: '400 Bad Request',
+#         UNAUTHORIZED: '401 Unauthorized',
+#         FORBIDDEN: '403 Forbidden',
+#         INTERNAL_SERVER_ERROR: '500 Internal Server Error'
+#     }
+
+
+class SchemaDefinition:
     '''
     Definition file constants
     '''
@@ -20,6 +40,8 @@ class DefinitionEnum:
     COMPONENTS = 'components'
     COMPONENTS_SCHEMAS = 'schemas'
     PARAMETERS = 'parameters'
+    SUMMARY = 'summary'
+    DESCRIPTION = 'description'
     REQUEST_BODY = 'requestBody'
     ENDPOINT_TAGS = 'tags'
     ENDPOINT_RESPONSES = 'responses'
@@ -27,7 +49,7 @@ class DefinitionEnum:
     BEARER = 'bearerAuth'
 
 
-class MetadataEnum:
+class Meta:
     '''
     Metadata constants
     '''
@@ -35,12 +57,16 @@ class MetadataEnum:
     QUERY_PARAM_KEY = 'query_params'
     MODEL_KEY = 'model'
     SECURITY_KEY = 'security'
+    RESPONSES_KEY = 'responses'
+    DESCRIPTION_KEY = 'description'
+    SUMMARY_KEY = 'summary'
+    PRODUCES_KEY = 'produces'
     PARAM_PATH_TYPE = 'path'
     PARAM_QUERY_TYPE = 'query'
     REQUEST_BODY = 'request_body'
 
 
-class DependencyEnum:
+class DependencyInfo:
     '''
     Dependency constants
     '''
@@ -50,7 +76,7 @@ class DependencyEnum:
     PKG_SWAGGER = 'swagger.pkl'
 
 
-class RouteEnum:
+class SwaggerRoute:
     '''
     Route constants
     '''
@@ -59,7 +85,7 @@ class RouteEnum:
     SWAG_INDEX_DEFAULT = '/swagger/index.html'
 
 
-class SecurityEnum:
+class SecurityDefinition:
     '''
     Security constants
     '''

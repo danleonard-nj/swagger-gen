@@ -1,9 +1,9 @@
 from swagger_gen.lib.utils import element_at
 from swagger_gen.lib.exceptions import NullReferenceException
 from swagger_gen.lib.constants import (
-    DependencyEnum,
-    MethodEnum,
-    RouteEnum,
+    DependencyInfo,
+    Method,
+    SwaggerRoute,
 )
 from werkzeug.exceptions import abort
 from flask import Flask, Response
@@ -38,8 +38,8 @@ class DependencyProvider:
         '''
 
         data = importlib.resources.open_binary(
-            DependencyEnum.PKG_RESOURCE_MODULE,
-            DependencyEnum.PKG_SWAGGER)
+            DependencyInfo.PKG_RESOURCE_MODULE,
+            DependencyInfo.PKG_SWAGGER)
 
         return pickle.load(data)
 
@@ -82,15 +82,15 @@ class DependencyProvider:
             return resource
 
         self._app.add_url_rule(
-            rule=RouteEnum.SWAG_DEPS_BASE,
+            rule=SwaggerRoute.SWAG_DEPS_BASE,
             view_func=get_resource,
-            methods=[MethodEnum.GET])
+            methods=[Method.GET])
 
         def get_index():
             return Response(
-                self._resources.get(DependencyEnum.PKG_SWAG_UI))
+                self._resources.get(DependencyInfo.PKG_SWAG_UI))
 
         self._app.add_url_rule(
-            rule=self._url or RouteEnum.SWAG_INDEX_DEFAULT,
+            rule=self._url or SwaggerRoute.SWAG_INDEX_DEFAULT,
             view_func=get_index,
-            methods=[MethodEnum.GET])
+            methods=[Method.GET])
