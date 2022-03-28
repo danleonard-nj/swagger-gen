@@ -197,36 +197,6 @@ def swagger_metadata(**kwargs):
     return inner
 
 
-# TODO: This should be moved to swagger_metadata
-
-def swagger_response(status_code, description):
-    '''
-    Docs
-    '''
-    def real_decorator(view_function):
-        response = format_response(
-            status_code=status_code,
-            description=description)
-
-        if not endpoint_metadata[view_function]:
-            endpoint_metadata[view_function] = EndpointMetadata(
-                view_function=view_function,
-                metadata={'response': response})
-
-        else:
-            _meta = endpoint_metadata[view_function]
-            if not _meta.get('responses'):
-                _meta['responses'] = [response]
-            else:
-                _meta['responses'].append(response)
-
-        @wraps(view_function)
-        def wrapper(*_args, **_kwargs):
-            return view_function(*_args, **_kwargs)
-        return wrapper
-    return real_decorator
-
-
 def get_endpoint_metadata(view_function_name) -> dict:
     '''Get the endpoint metadata by the view funtion name key'''
 

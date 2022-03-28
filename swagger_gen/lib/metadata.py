@@ -4,10 +4,7 @@ from typing import Callable, Iterable, List, Union
 
 from numpy import isin
 from swagger_gen.lib.endpoint import SwaggerEndpoint
-from swagger_gen.lib.logger import get_logger
 from swagger_gen.lib.utils import not_null
-
-logger = get_logger()
 
 
 class EndpointMetadata:

@@ -1,5 +1,3 @@
-from typing import List, Union
-from swagger_gen.lib.logger import get_logger
 from swagger_gen.lib.constants import (
     AuthType,
     ComponentType,
@@ -8,6 +6,7 @@ from swagger_gen.lib.constants import (
     ParameterType,
     Schema,
 )
+from typing import List, Union
 from swagger_gen.lib.endpoint import SwaggerEndpoint
 from swagger_gen.lib.metadata import EndpointMetadata
 from swagger_gen.lib.wrappers import get_endpoint_metadata
@@ -19,10 +18,6 @@ from swagger_gen.lib.utils import (
     is_type,
     not_null,
 )
-
-logger = get_logger()
-
-# TODO: Tags to define the sections
 
 
 class SwaggerDefinition:
