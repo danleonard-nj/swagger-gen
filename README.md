@@ -5,6 +5,32 @@ Much like the *awesome* `Swashbuckle.AspNetCore.SwaggerGen`, Flask needs a user-
 
 ## Quickstart
 
+```python
+from swagger_gen.lib.wrappers import swagger_metadata
+from swagger_gen.lib.security import BearerAuth
+from swagger_gen.swagger import Swagger
+from flask import Flask, request
+
+app = Flask(__name__)
+
+
+@app.route('/api/hello/say', methods=['GET'])
+@swagger_metadata(
+    summary='Sample endpoint',
+    description='This is a sample endpoint')
+def test():
+    return {'message': 'hello world!'}
+
+
+swagger = Swagger(
+    app=app,
+    title='app')
+
+swagger.configure()
+
+if __name__ == '__main__':
+    app.run(debug=True, port='5000')
+```
 
 ## Dependencies
 The web content required to display Swagger UI is packaged in a binary and included as a package resource.  On configuration, the dependencies are fetched from the package and hooked into the Flask app route definitions, so Flask will serve those static dependencies without requiring them to exist in app space.  Serving static files from the Flask web server, for almost any other reason, is not a great choice.  However, unless you're worried about heavy load on your Swagger page (if that's the case, you may have a different problem to worry about) it won't be an issue.
