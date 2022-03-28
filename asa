@@ -1,0 +1,47 @@
+[33mcommit 7cc0551ed950d5a45a172dd1ca4e2417334c1467[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Dan Leonard <49821189+danleonard-nj@users.noreply.github.com>
+Date:   Sun Mar 27 21:45:01 2022 -0700
+
+    Add workflow dispatch (#7)
+
+[33mcommit aa0c87fa4a132df4cd51313c5d2f575e80ff0559[m
+Author: Dan Leonard <49821189+danleonard-nj@users.noreply.github.com>
+Date:   Sun Mar 27 21:41:12 2022 -0700
+
+    Create python-publish.yml (#6)
+
+[33mcommit 05b5f2edda8614324f679925d13fc8acaaeb5190[m
+Author: Dan Leonard <49821189+danleonard-nj@users.noreply.github.com>
+Date:   Sun Mar 27 21:10:48 2022 -0700
+
+    Adding quickstart (#4)
+
+[33mcommit 50134912f26c60fc371af08e13bedbb5b074709a[m
+Author: Dan Leonard <49821189+danleonard-nj@users.noreply.github.com>
+Date:   Sun Mar 27 21:03:52 2022 -0700
+
+    General refactor, reworked documentation, expanded Swagger spec field options, etc (#3)
+
+[33mcommit 35fb3b99c00a1bc84734f3784dc55401d0a9f3f5[m
+Author: Dan Leonard <49821189+danleonard-nj@users.noreply.github.com>
+Date:   Sat Jan 1 07:04:53 2022 -0700
+
+    Adding additional Swagger metadata options (#2)
+
+[33mcommit 9bf8cd18cdf803ad65e4b095c80eb0313a36ea09[m
+Author: Dan Leonard <49821189+danleonard-nj@users.noreply.github.com>
+Date:   Tue Dec 28 18:09:02 2021 -0700
+
+    partial docstrings for schema.py (#1)
+
+[33mcommit b8ee011eec7089b834afa4d9fd2f20d83eab50b4[m
+Author: Dan Leonard <dcl525@gmail.com>
+Date:   Tue Dec 28 17:37:56 2021 -0700
+
+    initial commit
+
+[33mcommit b280a46e010da0192cd369bc2bed723ee10d86cf[m
+Author: Dan Leonard <49821189+danleonard-nj@users.noreply.github.com>
+Date:   Tue Dec 28 17:30:52 2021 -0700
+
+    Initial commit

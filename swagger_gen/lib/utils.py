@@ -3,10 +3,6 @@ from typing import Any, Iterable, Tuple, Union
 
 
 def element_at(_iterable: Iterable[Any], index: int) -> Union[Any, None]:
-    '''
-    Returns the element at the specified index if it exists, and
-    None if it doesn't
-    '''
     try:
         return _iterable[index]
     except:

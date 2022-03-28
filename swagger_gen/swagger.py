@@ -6,9 +6,6 @@ from typing import List
 from flask import Flask
 
 
-# TODO:Ditch builder class?  That stuff can live in Swagger
-# TODO Get response definitions included in the metadata, ditch the second decorator
-
 class Swagger:
     '''
     Swagger-gen automated documentation generator:
@@ -138,7 +135,6 @@ class Swagger:
         '''
 
         # TODO Feature to define custom exclusions
-        # TODO This probably needs some rethinking
 
         # Default keys to exclude from list of endpoints to generate definitions
         exclusion_keys = ['swagger', 'static']
