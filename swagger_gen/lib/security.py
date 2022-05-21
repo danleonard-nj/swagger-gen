@@ -1,3 +1,5 @@
+from typing import List
+
 from swagger_gen.lib.constants import AuthType
 from swagger_gen.lib.utils import element_at, not_null
 
@@ -41,7 +43,7 @@ class ApiKey(AuthBase):
 
 
 class OAuth(AuthBase):
-    def __init__(self, name, auth_url, scopes: list[tuple]):
+    def __init__(self, name, auth_url, scopes: List[tuple]):
         self.auth_type = AuthType.OAUTH_2
         not_null(name, 'name')
         not_null(auth_url, 'auth_url')
@@ -63,7 +65,7 @@ class OAuth(AuthBase):
             }
         }
 
-    def _parse_scopes_spec(self, scopes: list[tuple]):
+    def _parse_scopes_spec(self, scopes: List[tuple]):
         '''Parse the service scopes from tuples to the document spec'''
 
         _scopes = dict()

@@ -190,7 +190,7 @@ class SwaggerDefinition:
             # Add generic metadata if it's not defined on the route
             else:
                 defaults = self._get_default_metadata()
-                method_definition = method_definition | defaults
+                method_definition = method_definition or defaults
 
             if not any(parameters):
                 method_definition[Schema.PARAMETERS] = parameters
