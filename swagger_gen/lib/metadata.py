@@ -1,10 +1,10 @@
-from functools import wraps
-from importlib.metadata import metadata
-from typing import Callable, Iterable, List, Union
-
-from numpy import isin
-from swagger_gen.lib.endpoint import SwaggerEndpoint
 from swagger_gen.lib.utils import not_null
+from typing import (
+    Callable,
+    Iterable,
+    List,
+    Union
+)
 
 
 class EndpointMetadata:

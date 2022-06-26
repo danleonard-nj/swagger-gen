@@ -1,12 +1,18 @@
-
+from swagger_gen.lib.metadata import (
+    EndpointMetadata,
+    MetadataCollection
+)
+from swagger_gen.lib.utils import (
+    element_at,
+    defined,
+    is_type,
+    not_null
+)
+from typing import Callable
+from flask import Blueprint
 from functools import wraps
 import inspect
 import logging
-from typing import Callable
-from swagger_gen.lib.metadata import EndpointMetadata, MetadataCollection
-from swagger_gen.lib.utils import element_at, defined, is_type, not_null
-from flask import Blueprint
-from inspect import FrameInfo
 
 logger = logging.getLogger(__name__)
 endpoint_metadata = MetadataCollection()
@@ -38,7 +44,6 @@ def get_blueprint_from_context():
     '''
 
     # Fetch the stack frame second from the top if we can
-    frames = inspect.stack()
     caller_frame = element_at(inspect.stack(), 2)
 
     # Short out and return null if we can't for some reason

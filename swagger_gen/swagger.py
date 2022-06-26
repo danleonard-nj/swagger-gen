@@ -1,7 +1,10 @@
+from swagger_gen.lib.utils import (
+    is_type,
+    not_null
+)
 from swagger_gen.lib.dependency import DependencyProvider
 from swagger_gen.lib.endpoint import SwaggerEndpoint
 from swagger_gen.lib.schema import SwaggerDefinition
-from swagger_gen.lib.utils import is_type, not_null
 from typing import List
 from flask import Flask
 
