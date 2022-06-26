@@ -1,4 +1,7 @@
-from swagger_gen.lib.utils import element_at, not_null
+from swagger_gen.lib.utils import (
+    element_at,
+    not_null
+)
 from swagger_gen.lib.constants import Method
 from werkzeug.routing import Rule
 from typing import List

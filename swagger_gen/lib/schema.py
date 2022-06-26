@@ -29,7 +29,7 @@ class SwaggerDefinition:
         - Less likely to break shit in the schema
         - Separate implementation details.  i.e. generic schema objects that
         should be interchangable to generate JSON, YAML, etc.
-        - generating the schema can be hidden.
+            - generating the schema can be hidden.
     '''
 
     def __init__(
@@ -116,7 +116,7 @@ class SwaggerDefinition:
             self,
             component_key: str,
             component_type: str,
-            component_model: dict):
+            component_model: dict) -> None:
         '''Add the generated component schema to the definition'''
 
         not_null(component_key, 'component_key')
@@ -166,7 +166,7 @@ class SwaggerDefinition:
             # from Flask's formatting to match Swagger conventions.  Basically
             # just swapping the carats for curly braces
             parameters = list()
-            if not any(endpoint.segment_params):
+            if any(endpoint.segment_params):
 
                 # Generate the documentation for the route segment
                 path_parameters = (
@@ -257,6 +257,9 @@ class SwaggerDefinition:
                     for arg in metadata.query_params
                 ])
             parameters.extend(query_parameters)
+
+        if any(parameters):
+            method_definition[Schema.PARAMETERS] = parameters
 
         # If a request model is defined in the metadata
         if metadata.request_model:
@@ -388,7 +391,7 @@ class SwaggerDefinition:
         base[Schema.INFO] = info
         return base
 
-    def _get_default_responses(self):
+    def _get_default_responses(self) -> dict:
         '''The default endpoint responses, used if no others are defined'''
 
         # TODO: Pass down responses from create_endpoint -> _create_path, etc
