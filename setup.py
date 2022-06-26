@@ -1,14 +1,15 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.1.1'
+VERSION = '0.1.2'
 DESCRIPTION = 'Swagger UI for Flask apps'
 LONG_DESCRIPTION = 'Automatically generate Swagger UI documentation for a Flask app.  Batteries included.'
 
 setup(
-    name="swagger-gen",
+    name='swagger-gen',
+    python_requires='>=3.9.0',
     version=VERSION,
-    author="Dan Leonard",
-    author_email="dcl525@gmail.com",
+    author='Dan Leonard',
+    author_email='dcl525@gmail.com',
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     package_data={'swagger_gen': ['./resources/swagger.pkl']},
@@ -16,9 +17,9 @@ setup(
     install_requires=['flask'],
     keywords=['python', 'swagger-gen'],
     classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Programming Language :: Python :: 3",
-        "Operating System :: MacOS :: MacOS X",
-        "Operating System :: Microsoft :: Windows",
+        'Development Status :: 3 - Alpha',
+        'Programming Language :: Python :: 3',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
     ]
 )
