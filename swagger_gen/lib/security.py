@@ -24,7 +24,7 @@ class BearerAuth(AuthBase):
 
 class ApiKey(AuthBase):
     def __init__(self, name, header_key):
-        self.type = AuthType.API_KEY
+        self.auth_type = AuthType.API_KEY
         not_null(name, 'name')
         not_null(header_key, 'header_key')
 
