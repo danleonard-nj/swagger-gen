@@ -195,9 +195,9 @@ class SwaggerDefinition:
             if not any(parameters):
                 method_definition[Schema.PARAMETERS] = parameters
 
-        # Set the method definition on the endpoint definition using the lowered
-        # method name
-        definition[method.lower()] = method_definition
+            # Set the method definition on the endpoint definition using the lowered
+            # method name
+            definition[method.lower()] = method_definition
 
         # Add the endpoint definition to the spec
         self._add_path(
