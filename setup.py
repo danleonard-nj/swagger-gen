@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.1.2'
+VERSION = '0.1.3'
 DESCRIPTION = 'Swagger UI for Flask apps'
 LONG_DESCRIPTION = 'Automatically generate Swagger UI documentation for a Flask app.  Batteries included.'
 
