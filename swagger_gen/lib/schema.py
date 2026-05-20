@@ -42,7 +42,7 @@ class SwaggerDefinition:
         self._app = app
 
         self._app_name = kwargs.get('title') or self._app.__name__
-        self._app_version = kwargs.get('version')
+        self._app_version = kwargs.get('version') or '1.0.0'
         self._url = kwargs.get('url') or '/swagger'
         self._app_terms_of_service = kwargs.get('terms_of_service')
         self._app_description = kwargs.get('description')
@@ -192,7 +192,7 @@ class SwaggerDefinition:
                 defaults = self._get_default_metadata()
                 method_definition = method_definition | defaults
 
-            if not any(parameters):
+            if any(parameters):
                 method_definition[Schema.PARAMETERS] = parameters
 
             # Set the method definition on the endpoint definition using the lowered
@@ -348,7 +348,8 @@ class SwaggerDefinition:
         # The title is the only required value here, if it isn't provided during buildup
         # we'll use the app name
         info = {
-            Schema.TITLE: self._app_name
+            Schema.TITLE: self._app_name,
+            Schema.VERSION: self._app_version
         }
 
         # Description
