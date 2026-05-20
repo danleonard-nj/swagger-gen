@@ -16,6 +16,7 @@ class Schema:
 
     PATHS = 'paths'
     TITLE = 'title'
+    VERSION = 'version'
     COMPONENTS = 'components'
     COMPONENTS_SCHEMAS = 'schemas'
     PARAMETERS = 'parameters'
